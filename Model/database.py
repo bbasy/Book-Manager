@@ -6,7 +6,8 @@ class DB:
         self.cur = self.con.cursor()
         self.cur.execute(
                 "CREATE TABLE IF NOT EXISTS Books ( \
-                    isbn INTEGER PRIMARY KEY, \
+                    id INTEGER PRIMARY KEY AUTOINCREMENT \
+                    isbn INTEGER, \
                     title TEXT, \
                     author TEXT, \
                     pagesread INTEGER, \
