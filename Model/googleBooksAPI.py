@@ -3,7 +3,7 @@ import config
 
 class booksAPI():
     def search(self, query):
-        params = {"q":query, 'key':config.apikey}
+        params = {"q":query, 'key':config.api_key}
         url = "https://www.googleapis.com/books/v1/volumes"
         response = requests.get(url, params=params)
         data = response.json()
