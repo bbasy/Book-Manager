@@ -75,6 +75,7 @@ class Ui_inputView(object):
 
         self.buttonBox = QtWidgets.QDialogButtonBox(self.layoutWidget)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.StandardButton.Cancel|QtWidgets.QDialogButtonBox.StandardButton.Help|QtWidgets.QDialogButtonBox.StandardButton.Ok)
+        self.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Help).setText("Fill")
         self.buttonBox.setObjectName("buttonBox")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.ItemRole.FieldRole, self.buttonBox)
         
