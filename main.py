@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from inputView import Ui_inputView
+from View.inputView import Ui_inputView
 
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):

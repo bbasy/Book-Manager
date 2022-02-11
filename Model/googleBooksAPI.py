@@ -1,5 +1,5 @@
 import requests
-import config
+from Model import config
 
 class booksAPI():
     def search(self, query):
