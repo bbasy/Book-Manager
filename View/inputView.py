@@ -2,7 +2,7 @@ import sys
 sys.path.append("..")
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from Model import googleBooksAPI
+from Model.googleBooksAPI import booksAPI
 
 class Ui_inputView(object):
     def setupUi(self, inputView):
@@ -79,6 +79,7 @@ class Ui_inputView(object):
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.ItemRole.FieldRole, self.buttonBox)
         
         self.buttonBox.rejected.connect(lambda: self.cancelButton(inputView))
+        self.buttonBox.helpRequested.connect(lambda: self.helpButton())
 
 
         self.isbnLabel.setBuddy(self.isbnInput)
@@ -111,19 +112,31 @@ class Ui_inputView(object):
         self.pagesTotInput.setValue(0)
         inputView.close()
 
-    def checkInput():
-        # List for the users input: [ISBN, Title, Author, Pages Read, Pages Total]
-        inputData = []
-        queryData = ""
-        inputData[0] = self.isbnInput.text()
-        inputData[1] = self.titleInput.text()
-        inputData[2] = self.authorInput.text()
-        inputData[3] = self.pagesRInput.text()
-        inputData[4] = self.pagesTotInput.text()
-        for i in range(len(inputData)):
-            if inputData[i] != "":
-                queryData = inputData[i]
+    def helpButton(self):
+        self.checkInput()
 
-            if inputData[i] == "":
-                # If any of the inputs are blank -> replace blank with information fetched from google API
-                pass
+    def checkInput(self):
+        # List for the users input: [ISBN, Title, Author, Pages Read, Pages Total]
+        self.inputData = []
+        self.queryData = ""
+        self.inputData.append(self.isbnInput.text())
+        self.inputData.append(self.titleInput.text())
+        self.inputData.append(self.authorInput.text())
+        self.inputData.append(self.pagesRInput.text())
+        self.inputData.append(self.pagesTotInput.text())
+        self.book = booksAPI()
+        # Excludes pages read and pages total from being indexed
+        self.getQueryData = True
+        for i in range(0, 3):
+            # Get information to query by searching for first field that is not blank
+            if self.inputData[i] != "" and self.getQueryData:
+                self.queryData = self.inputData[i]
+                self.getQueryData = False
+
+        for x in range(0, 3):
+            # Fill blank information with information received from query
+            if self.inputData[x] == "":
+                match x:
+                    case 0:
+                        self.isbnInput.setText(self.book.searchISBN(self.queryData))
+                        break;
