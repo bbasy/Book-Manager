@@ -59,6 +59,7 @@ class Ui_inputView(object):
         self.pagesRInput = QtWidgets.QSpinBox(self.layoutWidget)
         self.pagesRInput.setObjectName("pagesRInput")
         self.pagesRInput.setMinimum(0)
+        self.pagesRInput.setMaximum(10000)
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.FieldRole, self.pagesRInput)
 
         self.pagesTotLabel = QtWidgets.QLabel(self.layoutWidget)
@@ -71,6 +72,7 @@ class Ui_inputView(object):
         self.pagesTotInput = QtWidgets.QSpinBox(self.layoutWidget)
         self.pagesTotInput.setObjectName("pagesTotInput")
         self.pagesTotInput.setMinimum(0)
+        self.pagesTotInput.setMaximum(10000)
         self.formLayout.setWidget(4, QtWidgets.QFormLayout.ItemRole.FieldRole, self.pagesTotInput)
 
         self.buttonBox = QtWidgets.QDialogButtonBox(self.layoutWidget)
@@ -123,8 +125,8 @@ class Ui_inputView(object):
         self.inputData.append(self.isbnInput.text())
         self.inputData.append(self.titleInput.text())
         self.inputData.append(self.authorInput.text())
-        self.inputData.append(self.pagesRInput.text())
-        self.inputData.append(self.pagesTotInput.text())
+        self.inputData.append(self.pagesRInput.value())
+        self.inputData.append(self.pagesTotInput.value())
         self.book = booksAPI()
         # Excludes pages read and pages total from being indexed
         self.getQueryData = True
@@ -134,10 +136,21 @@ class Ui_inputView(object):
                 self.queryData = self.inputData[i]
                 self.getQueryData = False
 
-        for x in range(0, 3):
+        for x in range(0, 5):
             # Fill blank information with information received from query
             if self.inputData[x] == "":
                 match x:
                     case 0:
                         self.isbnInput.setText(self.book.searchISBN(self.queryData))
                         break;
+                    
+                    case 1:
+                        self.titleInput.setText(self.book.search(self.queryData, "title"))
+                        break;
+                    
+                    case 2:
+                        self.authorInput.setText(self.book.searchAuthor(self.queryData))
+                        break;
+
+            if self.inputData[4] == 0:
+                self.pagesTotInput.setValue(self.book.search(self.queryData, "pageCount"))
