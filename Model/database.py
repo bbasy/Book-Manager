@@ -5,31 +5,29 @@ class DB:
         self.con = sqlite3.connect('books.db')
         self.cur = self.con.cursor()
         self.cur.execute(
-                "CREATE TABLE IF NOT EXISTS Books ( \
-                    id INTEGER PRIMARY KEY AUTOINCREMENT \
-                    isbn INTEGER, \
-                    title TEXT, \
-                    author TEXT, \
-                    pagesread INTEGER, \
-                    totalpages INTEGER, \
-                    averagerating INTEGER \
-                    )"
-                )
-        self.conn.commit()
+            "CREATE TABLE IF NOT EXISTS Books \
+            (id INTEGER PRIMARY KEY AUTOINCREMENT, \
+            isbn INTEGER, \
+            title TEXT, \
+            author TEXT, \
+            pagesread INTEGER, \
+            totalpages INTEGER)"
+                         )
+        self.con.commit()
 
     def __del__(self):
-        self.conn.commit()
-        self.conn.close()
+        self.con.commit()
+        self.con.close()
 
     def view(self):
-        self.curr.execute("SELECT * FROM Books")
+        self.cur.execute("SELECT * FROM Books")
         row = self.cur.fetchall()
         return row
 
-    def insert(self, isbn):
+    def insert(self, isbn, title, author, pagesread, pagestot):
         self.cur.execute(
-                "INSERT INTO Books VALUES (?)", (isbn))
-        self.conn.commit()
+                "INSERT INTO Books VALUES (NULL,?,?,?,?,?)", (isbn,title,author,pagesread,pagestot))
+        self.con.commit()
         self.view()
 
     def update(self, ISBN, title, author, pagesread):
@@ -37,11 +35,9 @@ class DB:
             "UPDATE Books SET title=?, author=?, pagesread=? WHERE id=?", 
                 (title, author, pagesread, isbn))
 
-    def search(self, title="", author=""):
+    def search(self, isbn="", title="", author=""):
         self.cur.execute(
-            "SELECT * FROM Books Where title=? OR author=?", (title, author))
+            "SELECT * FROM Books WHERE isbn=? OR title=? OR author=?", (isbn, title, author))
         row = self.cur.fetchall()
         return row
-
-
 

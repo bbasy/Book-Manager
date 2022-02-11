@@ -3,6 +3,8 @@ sys.path.append("..")
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Model.googleBooksAPI import booksAPI
+from Model.database import DB
+db = DB()
 
 class Ui_inputView(object):
     def setupUi(self, inputView):
@@ -81,6 +83,7 @@ class Ui_inputView(object):
         self.buttonBox.setObjectName("buttonBox")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.ItemRole.FieldRole, self.buttonBox)
         
+        self.buttonBox.accepted.connect(lambda: self.okButton(inputView))
         self.buttonBox.rejected.connect(lambda: self.cancelButton(inputView))
         self.buttonBox.helpRequested.connect(lambda: self.helpButton())
 
@@ -104,15 +107,30 @@ class Ui_inputView(object):
         self.pagesTotLabel.setText(_translate("inputView", "Total Pages:"))
         
 
-    def okButton(self, inputView):
-        pass
-        
-    def cancelButton(self, inputView):
+    def getFields(self):
+        self.inputData = []
+        self.inputData.append(self.isbnInput.text())
+        self.inputData.append(self.titleInput.text())
+        self.inputData.append(self.authorInput.text())
+        self.inputData.append(self.pagesRInput.value())
+        self.inputData.append(self.pagesTotInput.value())
+        return self.inputData
+    
+    def clearFields(self):
         self.isbnInput.setText("")
         self.titleInput.setText("")
         self.authorInput.setText("")
         self.pagesRInput.setValue(0)
         self.pagesTotInput.setValue(0)
+
+    def okButton(self, inputView):
+        self.inputData = self.getFields()
+        db.insert(self.inputData[0], self.inputData[1], self.inputData[2], self.inputData[3], self.inputData[4])
+        self.clearFields()
+        inputView.close()
+
+    def cancelButton(self, inputView):
+        self.clearFields()
         inputView.close()
 
     def helpButton(self):
@@ -120,13 +138,8 @@ class Ui_inputView(object):
 
     def checkInput(self):
         # List for the users input: [ISBN, Title, Author, Pages Read, Pages Total]
-        self.inputData = []
+        self.inputData = self.getFields()
         self.queryData = ""
-        self.inputData.append(self.isbnInput.text())
-        self.inputData.append(self.titleInput.text())
-        self.inputData.append(self.authorInput.text())
-        self.inputData.append(self.pagesRInput.value())
-        self.inputData.append(self.pagesTotInput.value())
         self.book = booksAPI()
         # Excludes pages read and pages total from being indexed
         self.getQueryData = True
