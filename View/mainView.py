@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+from inputView import Ui_inputView
 
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
@@ -13,19 +13,20 @@ class Ui_mainWindow(object):
         self.bookTable.setGeometry(QtCore.QRect(10, 20, 1011, 521))
         self.bookTable.setObjectName("bookTable")
 
-        self.insertItemBtn = QtWidgets.QPushButton(self.centralwidget, clicked= lambda: self.insertView())
+        self.insertItemBtn = QtWidgets.QPushButton(self.centralwidget)
         self.insertItemBtn.setGeometry(QtCore.QRect(1030, 20, 121, 122))
         self.insertItemBtn.setObjectName("insertItemBtn")
+        self.insertItemBtn.clicked.connect(self.insertView)
 
-        self.deleteItemBtn = QtWidgets.QPushButton(self.centralwidget, clicked= lambda: self.deleteItem())
+        self.deleteItemBtn = QtWidgets.QPushButton(self.centralwidget)
         self.deleteItemBtn.setGeometry(QtCore.QRect(1030, 150, 121, 122))
         self.deleteItemBtn.setObjectName("deleteItemBtn")
 
-        self.clearBtn = QtWidgets.QPushButton(self.centralwidget, clicked= lambda: self.clearTbl())
+        self.clearBtn = QtWidgets.QPushButton(self.centralwidget)
         self.clearBtn.setGeometry(QtCore.QRect(1030, 420, 121, 122))
         self.clearBtn.setObjectName("clearBtn")
 
-        self.editItemBtn = QtWidgets.QPushButton(self.centralwidget, clicked= lambda: self.editItem())
+        self.editItemBtn = QtWidgets.QPushButton(self.centralwidget)
         self.editItemBtn.setGeometry(QtCore.QRect(1030, 280, 121, 125))
         self.editItemBtn.setObjectName("editItemBtn")
 
@@ -47,13 +48,22 @@ class Ui_mainWindow(object):
 
     # Opens insert view where users can type their book names/isbn
     def insertView(self):
-    
+        input_View.show() 
+
     def deleteItem(self):
+        pass
 
     def clearTbl(self):
+        pass
 
     def editItem(self):
+        pass
 
+class input_View(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.ui = Ui_inputView()
+        self.ui.setupUi(self)
 
 if __name__ == "__main__":
     import sys
@@ -61,5 +71,9 @@ if __name__ == "__main__":
     mainWindow = QtWidgets.QMainWindow()
     ui = Ui_mainWindow()
     ui.setupUi(mainWindow)
+
+    input_View = input_View()
+    input_View.hide()
+
     mainWindow.show()
     sys.exit(app.exec())
