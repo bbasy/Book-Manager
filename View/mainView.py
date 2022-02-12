@@ -11,25 +11,11 @@ class Ui_mainWindow(object):
         self.centralwidget = QtWidgets.QWidget(mainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
-        self.bookTable = QtWidgets.QTableWidget(self.centralwidget)
+        self.bookTable = QtWidgets.QTableView(self.centralwidget)
         self.bookTable.setGeometry(QtCore.QRect(10, 20, 1011, 521))
         self.bookTable.setObjectName("bookTable")
-        self.bookTable.setColumnCount(6)
-        item = QtWidgets.QTableWidgetItem()
-        self.bookTable.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.bookTable.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.bookTable.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.bookTable.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.bookTable.setHorizontalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.bookTable.setHorizontalHeaderItem(5, item)
         self.bookTable.horizontalHeader().setDefaultSectionSize(170)
         self.bookTable.verticalHeader().setVisible(False)
-        self.loadData()
 
         self.insertItemBtn = QtWidgets.QPushButton(self.centralwidget)
         self.insertItemBtn.setGeometry(QtCore.QRect(1030, 20, 121, 122))
@@ -64,19 +50,6 @@ class Ui_mainWindow(object):
         self.clearBtn.setText(_translate("mainWindow", "Clear Table"))
         self.editItemBtn.setText(_translate("mainWindow", "Edit Field"))
 
-        item = self.bookTable.horizontalHeaderItem(0)
-        item.setText(_translate("mainWindow", "ID"))
-        item = self.bookTable.horizontalHeaderItem(1)
-        item.setText(_translate("mainWindow", "ISBN"))
-        item = self.bookTable.horizontalHeaderItem(2)
-        item.setText(_translate("mainWindow", "Title"))
-        item = self.bookTable.horizontalHeaderItem(3)
-        item.setText(_translate("mainWindow", "Author"))
-        item = self.bookTable.horizontalHeaderItem(4)
-        item.setText(_translate("mainWindow", "Pages Read"))
-        item = self.bookTable.horizontalHeaderItem(5)
-        item.setText(_translate("mainWindow", "Total Pages"))
-
     # Opens insert view where users can type their book names/isbn
     def insertView(self):
         input_View.show() 
@@ -89,16 +62,5 @@ class Ui_mainWindow(object):
 
     def editItem(self):
         pass
-    
-    def loadData(self):
-        # Dynamically sizes the table rows
-        self.bookTable.setRowCount(len(db.view()))
-        tableRow = 0
-        for rows in db.view():
-            self.bookTable.setItem(tableRow, 0, QtWidgets.QTableWidgetItem(str(rows[0])))
-            self.bookTable.setItem(tableRow, 1, QtWidgets.QTableWidgetItem(str(rows[1])))
-            self.bookTable.setItem(tableRow, 2, QtWidgets.QTableWidgetItem(rows[2]))
-            self.bookTable.setItem(tableRow, 3, QtWidgets.QTableWidgetItem(rows[3]))
-            self.bookTable.setItem(tableRow, 4, QtWidgets.QTableWidgetItem(str(rows[4])))
-            self.bookTable.setItem(tableRow, 5, QtWidgets.QTableWidgetItem(str(rows[5])))
-            tableRow += 1
+
+
