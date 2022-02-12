@@ -4,6 +4,8 @@ sys.path.append("..")
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Model.googleBooksAPI import booksAPI
 from Model.database import DB
+from Model import config
+
 db = DB()
 
 class Ui_inputView(object):
@@ -127,6 +129,7 @@ class Ui_inputView(object):
         self.inputData = self.getFields()
         db.insert(self.inputData[0], self.inputData[1], self.inputData[2], self.inputData[3], self.inputData[4])
         self.clearFields()
+        config.acceptInput = True
         inputView.close()
 
     def cancelButton(self, inputView):

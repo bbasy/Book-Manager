@@ -1,6 +1,8 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Model.database import DB
 from View.inputView import Ui_inputView
+from Model import config
+
 db = DB()
 
 class input_View(QtWidgets.QDialog, Ui_inputView):
@@ -68,4 +70,7 @@ class Ui_mainWindow(object):
         pass
 
     def editItem(self):
+        pass
+
+    def updateView(self):
         pass
