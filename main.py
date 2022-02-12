@@ -29,6 +29,7 @@ class Ui_mainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.bookTable.setHorizontalHeaderItem(5, item)
         self.bookTable.horizontalHeader().setDefaultSectionSize(170)
+        self.bookTable.verticalHeader().setVisible(False)
         self.loadData()
 
         self.insertItemBtn = QtWidgets.QPushButton(self.centralwidget)
@@ -91,12 +92,10 @@ class Ui_mainWindow(object):
         pass
     
     def loadData(self):
-        self.bookTable.setRowCount(100)
+        # Dynamically sizes the table rows
+        self.bookTable.setRowCount(len(db.view()))
         tableRow = 0
         for rows in db.view():
-            print(rows[0])
-            print(rows[2])
-            # ID
             self.bookTable.setItem(tableRow, 0, QtWidgets.QTableWidgetItem(str(rows[0])))
             self.bookTable.setItem(tableRow, 1, QtWidgets.QTableWidgetItem(str(rows[1])))
             self.bookTable.setItem(tableRow, 2, QtWidgets.QTableWidgetItem(rows[2]))
