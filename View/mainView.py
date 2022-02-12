@@ -1,7 +1,13 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Model.database import DB
-
+from View.inputView import Ui_inputView
 db = DB()
+
+class input_View(QtWidgets.QDialog, Ui_inputView):
+    def __init__(self, parent=None):
+        super(input_View, self).__init__(parent)
+        self.ui = Ui_inputView()
+        self.ui.setupUi(self)
 
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
@@ -52,7 +58,8 @@ class Ui_mainWindow(object):
 
     # Opens insert view where users can type their book names/isbn
     def insertView(self):
-        input_View.show() 
+        inputWindow = input_View()
+        inputWindow.show()
 
     def deleteItem(self):
         pass
@@ -62,5 +69,3 @@ class Ui_mainWindow(object):
 
     def editItem(self):
         pass
-
-
